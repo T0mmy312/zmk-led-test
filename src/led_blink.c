@@ -42,11 +42,6 @@ void blink_ir(const struct device *gpio_dev, struct gpio_callback *cb, uint32_t 
 }
 
 static int led_blink_init(const struct device *dev) {
-    while (1)
-    {
-        printk("Test\n");
-    }
-
     const struct led_blink_config* conf = (const struct led_blink_config*)dev->config;
     const struct led_blink_data* data = (const struct led_blink_data*)dev->data;
 
