@@ -1,11 +1,11 @@
 manifest:
   remotes:
-    - name: remote-name
-      url-base: https://github.com/remote-name
+    - name: zmk-led-test-origin
+      url-base: https://github.com/T0mmy312/zmk-led-test.git
   projects:
     # Together with the above defined remote, this refers to a module located at
     # https://github.com/remote-name/repository-name
-    - name: repository-name
-      remote: remote-name
+    - name: zmk-led-test
+      remote: zmk-led-test-origin
       # This points to a west manifest file in the remote module for further imports
       import: west.yml

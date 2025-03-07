@@ -1,0 +1,12 @@
+description: |
+  a led blink device triggered by a rising edge interrupt
+
+compatible: led,blink-driver
+
+properties:
+  led-gpios:
+    type: phandle-array
+    required: true
+  irq-gpios:
+    type: phandle-array
+    required: true

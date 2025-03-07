@@ -1,0 +1,7 @@
+menuconfig LED_BLINK
+    bool "led blink"
+  select SPI
+    help
+      Enable led blink.
+
+#if LED_BLINK
