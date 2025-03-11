@@ -1,7 +1,7 @@
 description: |
   a led blink device triggered by a rising edge interrupt
 
-compatible: led,blink-driver
+compatible: led-blink-driver
 
 properties:
   led-gpios:

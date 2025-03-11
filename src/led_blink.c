@@ -15,7 +15,7 @@ LOG_MODULE_REGISTER(led_blink, LOG_LEVEL_INF);
 //#define LED_NODE DT_ALIAS(led0)
 //#define LED_GPIO DT_GPIO_CTLR(LED_NODE, led_gpios)
 //#define LED_GPIO_PIN DT_GPIO_PIN(led_gpios)
-//#define LED_BLINK_CONFIG_PRIORITY 24
+#define LED_BLINK_CONFIG_PRIORITY 24
 
 #define BLINK_DEV_IRQ  24       /* device uses IRQ 24 */
 #define BLINK_DEV_PRIO  2       /* device uses interrupt priority 2 */
@@ -35,15 +35,17 @@ static const struct sensor_driver_api led_blink_api = {
 
 void blink_ir(const struct device *gpio_dev, struct gpio_callback *cb, uint32_t pins) {
     struct led_blink_data *data = CONTAINER_OF(cb, struct led_blink_data, irq_callback);
-    const struct device *blink_dev = CONTAINER_OF((void*)data, struct device, data); // Find Blink device
+    const struct device *blink_dev = CONTAINER_OF((void*)data, struct device, data);
     const struct led_blink_config *conf = (const struct led_blink_config*)blink_dev->config;
 
-    gpio_pin_toggle_dt(&conf->gpio); // Toggle the correct LED
+    gpio_pin_toggle_dt(&conf->gpio);
 }
 
 static int led_blink_init(const struct device *dev) {
+    printk("Started LED blink init!\n");
+
     const struct led_blink_config* conf = (const struct led_blink_config*)dev->config;
-    const struct led_blink_data* data = (const struct led_blink_data*)dev->data;
+    struct led_blink_data* data = (struct led_blink_data*)dev->data;
 
     if (!gpio_pin_configure_dt(&conf->gpio, 0)) {
         LOG_ERR("Failed to init gpio pin in led_blink!");
@@ -58,7 +60,7 @@ static int led_blink_init(const struct device *dev) {
     }
 
     gpio_init_callback(&data->irq_callback, blink_ir, BIT(conf->irq_gpio.pin));
-    gpio_add_callback_dt((const struct gpio_dt_spec*)&conf->irq_gpio, &data->irq_callback);
+    gpio_add_callback_dt(&conf->irq_gpio, &data->irq_callback);
 
     return 0;
 }
